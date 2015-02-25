@@ -9,7 +9,7 @@ require './lib/link'
 require './lib/tag'
 
 DataMapper.finalize
-DataMapper.auto_update!
+DataMapper.auto_upgrade!
 
 
 class BookmarkManager < Sinatra::Base
