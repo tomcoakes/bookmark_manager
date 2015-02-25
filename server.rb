@@ -9,7 +9,7 @@ require './lib/link'
 require './lib/tag'
 
 DataMapper.finalize
-DataMapper.auto_upgrade!
+DataMapper.auto_update!
 
 
 class BookmarkManager < Sinatra::Base
@@ -24,6 +24,12 @@ class BookmarkManager < Sinatra::Base
     tags = params["tags"].split(" ").map { |tag| Tag.first_or_create(text: tag) }
     Link.create(url: url, title: title, tags: tags)
     redirect to('/')
+  end
+
+  get '/tags/:text' do
+    tag = Tag.first(:text => params[:text])
+    @links = tag ? tag.links : []
+    erb :index
   end
 
   run! if app_file == $0
