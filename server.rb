@@ -5,6 +5,7 @@ require './lib/tag'
 require './lib/user'
 require './helpers/application.rb'
 require 'rack-flash'
+require 'sinatra/partial'
 
 class BookmarkManager < Sinatra::Base
 
@@ -16,6 +17,8 @@ class BookmarkManager < Sinatra::Base
   set :session_secret , 'super_secret'
   use Rack::Flash
   use Rack::MethodOverride
+  register Sinatra::Partial
+  set :partial_template_engine, :erb
 
   get '/' do
     @links = Link.all
