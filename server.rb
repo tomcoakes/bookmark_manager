@@ -4,15 +4,17 @@ require './lib/link'
 require './lib/tag'
 require './lib/user'
 require './helpers/application.rb'
-require_relative 'data_mapper_setup'
-
+require 'rack-flash'
 
 class BookmarkManager < Sinatra::Base
+
+  require_relative 'data_mapper_setup'
 
   helpers BookMarkUtils
 
   enable :sessions
   set :session_secret , 'super_secret'
+  use Rack::Flash
 
   get '/' do
     @links = Link.all
@@ -34,15 +36,22 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/users/new' do
+    @user = User.new
     erb :"users/new"
   end
 
   post '/users' do
-    user = User.create(email: params[:email],
-      password: params[:password],
-      password_confirmation: params[:password_confirmation] )
-    session[:user_id] = user.id
-    redirect to('/')
+    @user = User.new(email: params[:email],
+                    password: params[:password],
+                    password_confirmation: params[:password_confirmation] )
+
+    if @user.save
+      session[:user_id] = @user.id
+      redirect to('/')
+    else
+      flash.now[:errors] = @user.errors.full_messages
+      erb :"users/new"
+    end
   end
 
   run! if app_file == $0

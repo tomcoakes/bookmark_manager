@@ -2,8 +2,8 @@
 <h2>Enter your email address and choose a password</h2>
 
 <form action="/users" method="post">
-Email: <input type="text" name="email">
-Password: <input type="text" name="password">
-Confirm Password: <input type="text" name="password_confirmation">
+Email: <input type="text" name="email" value="<%= @user.email %>">
+Password: <input type="password" name="password">
+Confirm Password: <input type="password" name="password_confirmation">
 <input type="submit" value="Sign up">
 </form>
