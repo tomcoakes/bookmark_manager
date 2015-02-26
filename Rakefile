@@ -1,3 +1,4 @@
+require 'stringio'
 require 'data_mapper'
 require './data_mapper_setup'
 
