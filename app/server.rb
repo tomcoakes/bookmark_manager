@@ -25,8 +25,5 @@ class BookmarkManager < Sinatra::Base
   set :partial_template_engine, :erb
   set :views, Proc.new { File.join( "./app/views") }
 
-
-
-
 end
 
